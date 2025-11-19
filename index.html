@@ -25,20 +25,8 @@
       >
         Ajouter un employé
       </button>
-      <div
-        class="card-employee d-flex align-items-center bg-light-custom p-2 rounded mb-2 profile-info"
-        data-bs-toggle="modal"
-        data-bs-target="#employeeModal"
-      >
-        <img src="" alt="..." class="rounded-circle me-2" />
-        <div>
-          <p class="mb-0 small">employee name</p>
-          <small class="text-muted-light">employee role</small>
-        </div>
-        <button class="btn btn-link text-danger ms-auto p-1">
-          <i class="bi bi-x-circle"></i>
-        </button>
-      </div>
+      <div id="cardlist">
+      
     </section>
     <section class="main">
       <div class="conferenceroom">
@@ -77,7 +65,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Ajouter un employé</h5>
             <button
               type="button"
               class="btn-close"
@@ -98,11 +86,32 @@
                     class="form-control"
                   />
                 </div>
+
                 <div class="form-group">
-                    <label for="select" class="form-label">Role</label>
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="emailModalAjouter"
+                    placeholder="Entrez votre email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Telephone</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="phoneModalAjouter"
+                    placeholder="Entrez votre numero de telephone"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="select" class="form-label">Role</label>
+
                   <select
                     class="form-select"
                     aria-label="Default select example"
+                    id="roleModalAjouter"
                   >
                     <option selected>choisissez le role...</option>
                     <option value="receptionist">Receptionist</option>
@@ -120,17 +129,27 @@
                   class="form-control"
                 />
               </div>
-              
+
               <fieldset class="fw-bold m-1">Experiences</fieldset>
-              <div class="form-group p-3 mb-2 bg-secondary text-white rounded-2">
+              <div
+                class="form-group p-3 mb-2 bg-secondary text-white rounded-2"
+              >
                 <label for="entreprise form-label">Entreprise</label>
-                <input type="text" class="form-control" placeholder="Entrez le nom d'entreprise">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Entrez le nom d'entreprise"
+                />
                 <label for="role form-label">Role</label>
-                <input type="text" class="form-control" placeholder="Entrez le role">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Entrez le role"
+                />
                 <label for="from form-label">From :</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" />
                 <label for="To form-label">To :</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" />
               </div>
               <div id="dynamiqueForm"></div>
               <div class="from-group">
@@ -142,7 +161,6 @@
                   ajouter une experience
                 </button>
               </div>
-  
             </form>
           </div>
           <div class="modal-footer">
@@ -153,7 +171,7 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="submit" id="savechangesAjouter" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
