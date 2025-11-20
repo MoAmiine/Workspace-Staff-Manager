@@ -16,7 +16,7 @@ function saveEmployeeToLocalStorage() {
     role: document.getElementById("roleModalAjouter").value,
     email: document.getElementById("emailModalAjouter").value,
     phone: document.getElementById("phoneModalAjouter").value,
-    photoURL: document.getElementById("photoModalAjouter").value,
+    photoURL: "/assets/images/pfp.jpg",
   };
   employees.push(staff);
   localStorage.setItem("employees", JSON.stringify(employees));
@@ -54,7 +54,7 @@ function renderEmployees(employees) {
         data-bs-toggle="modal"
           data-bs-target="#exampleModal3"
         >
-        <img src="${emp.photoURL}" alt="..." class="rounded-circle me-2" />
+        <img src="${emp.photoURL}" alt="..." class="rounded-circle me-2 w-25" />
         <div>
           <p class="card-name mb-0 small">${emp.name}</p>
           <small class="text-muted-light text-secondary">${emp.role}</small>
@@ -79,31 +79,39 @@ document.getElementById('assignBtnreception').addEventListener('click', () => {
   assignemployees.innerHTML = renderEmployees(receptionemployees);
 });
 
+document.getElementById('assignBtnconferenceroom').addEventListener('click', () => {
+  let assignemployees = document.getElementById("cardlistassign");
+  assignemployees.innerHTML = renderEmployees(employees); 
+});
+
+let securityemployees = employees.filter(emp => emp.role === "security" || emp.role === "manager");
+document.getElementById('assignBtnsecurity').addEventListener('click', () => {
+  let assignemployees = document.getElementById("cardlistassign");
+  assignemployees.innerHTML = renderEmployees(securityemployees);
+});
+
+let serversemployees = employees.filter(emp => emp.role === "technicien" || emp.role === "manager");
+document.getElementById('assignBtnservers').addEventListener('click', () => {
+  let assignemployees = document.getElementById("cardlistassign");
+  assignemployees.innerHTML = renderEmployees(serversemployees);
+});
+let vaultemployees = employees.filter(emp => emp.role === "manager" );
+document.getElementById('assignBtnvault').addEventListener('click', () => {
+  let assignemployees = document.getElementById("cardlistassign");
+  assignemployees.innerHTML = renderEmployees(vaultemployees);
+});
+
 function profileEmployee(card) {
-  let emp = employees.find(emp => emp.name === card.querySelector(".card-name").innerText);
+  let emp = employees.find(emp => emp.name === card.querySelectorAll(".card-name").innerText);
   let profilmodal = document.getElementById("employeeModal3");
-  profilmodal.querySelector(".modal-header").innerHTML = `
-      <h5 class="modal-title" id="exampleModalLabel3">${emp.name}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-  `;
+  profilmodal.querySelector(".modal-title").innerText = emp.name;
   profilmodal.querySelector(".modal-body").innerHTML = `
-    <div class="text-center">
-      <img src="${emp.photoURL}" alt="Profile Picture" class="rounded-circle mb-3" width="150" height="150"/>
-      <h5>${emp.name}</h5>
-      <p class="text-muted">${emp.role}</p>
-    </div>
-    <div class="modal-body">
-      <div class="d-flex flex-column align-items-center">
-        <img src="${emp.photoURL}" alt="Profile Picture" class="rounded-circle mb-3" width="150" height="150"/>
-        <h5>${emp.role}</h5>
-        <p>Email: ${emp.email}</p>
-        <p>Phone: ${emp.phone}</p>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    </div>
+    <img src="${emp.photoURL}" alt="..." class="rounded-circle mb-2" />
+    <p><strong>Role:</strong> ${emp.role}</p>
+    <p><strong>Email:</strong> ${emp.email}</p>
+    <p><strong>Phone:</strong> ${emp.phone}</p>
   `;
+
 }
 
 
