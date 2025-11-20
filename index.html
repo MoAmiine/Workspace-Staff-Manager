@@ -25,31 +25,59 @@
       >
         Ajouter un employé
       </button>
-      <div id="cardlist">
-      
+      <div class="cardListView">
+        <div id="cardlist" class="cardlist">
+        
+      </div>   
+      </div>
     </section>
     <section class="main">
       <div class="conferenceroom">
-        conference room
-        <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
+        <p>conference room</p>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="assignBtn1"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2"
+        >
+          +
+        </button>
       </div>
       <div class="reception">
-        reception
-        <button type="button" class="btn btn-primary addreception" id="assignBtn">Add</button>
+        <p>reception</p>
+        <button
+          type="button"
+          class="btn btn-primary addreception"
+          id="assignBtn2"
+        >
+          +
+        </button>
       </div>
       <div class="rest">
-        rest
         <div class="serversroom">
-          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
+          <p>servers room</p>
+          <button type="button" class="btn btn-primary" id="assignBtn3">
+            +
+          </button>
         </div>
         <div class="securityuroom">
-          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
+          <p>security room</p>
+          <button type="button" class="btn btn-primary" id="assignBtn4">
+            +
+          </button>
         </div>
         <div class="staffroom">
-          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
+          <p>staff room</p>
+          <button type="button" class="btn btn-primary" id="assignBtn5">
+            +
+          </button>
         </div>
         <div class="vault">
-          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
+          <p>vault</p>
+          <button type="button" class="btn btn-primary" id="assignBtn6">
+            +
+          </button>
         </div>
       </div>
     </section>
@@ -65,7 +93,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ajouter un employé</h5>
+            <h5 class="modal-title" id="exampleModalLabel">
+              Ajouter un employé
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -171,14 +201,20 @@
             >
               Close
             </button>
-            <button type="submit" id="savechangesAjouter" class="btn btn-primary">Save changes</button>
+            <button
+              type="submit"
+              id="savechangesAjouter"
+              class="btn btn-primary"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
     </div>
 
     <!-- modal assign employee -->
-      <div
+    <div
       class="modal fade"
       id="exampleModal2"
       tabindex="-1"
@@ -188,7 +224,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ajouter un employé</h5>
+            <h5 class="modal-title" id="exampleModalLabel2">
+              Ajouter un employé
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -197,15 +235,39 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div id="cardlist"></div>
+            <div id="cardlistassign" class="cardlist">Test</div>
           </div>
         </div>
       </div>
     </div>
 
-
-
-    
+    <!-- modal afficher profil employee -->
+         <div
+      class="modal fade"
+      id="exampleModal3"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">
+              
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

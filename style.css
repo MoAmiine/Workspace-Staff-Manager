@@ -53,6 +53,7 @@ body {
 }
 .card-employee{
   box-shadow: 0 0 6px rgb(106, 106, 106);
+  width: 21rem;
 }
 .serversroom{
   grid-column: 2;
@@ -62,6 +63,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-size: large;
+font-weight: bold;
 }
 .securityuroom{
   grid-column: 3;
@@ -71,7 +74,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+font-size: large;
+font-weight: bold;
 }
 .staffroom{
   grid-column: 2;
@@ -81,7 +85,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+font-size: large;
+font-weight: bold;
 }
 .vault{
   grid-column: 3;
@@ -91,23 +96,32 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+font-size: large;
+font-weight: bold;
 }
 .conferenceroom{
 display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
-
+font-size: large;
+font-weight: bold;
 }
 .reception{
 display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
+font-size: large;
+font-weight: bold;
 }
 .modal input , .modal select{
   margin-bottom: 15px ;
 }
+.card-buttons{
+  border-left: solid 1px gray;
+}
+
+
 
 

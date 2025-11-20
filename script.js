@@ -1,6 +1,15 @@
-renderEmployees();
+let employees = [];
 
-const employees = [];
+
+const renderPage = () => {
+  employees = JSON.parse(localStorage.getItem("employees")) || [];
+
+  document.getElementById("cardlist").innerHTML = renderEmployees(employees);
+}
+
+renderPage();
+
+
 function saveEmployeeToLocalStorage() {
   staff = {
     name: document.getElementById("nameModalAjouter").value,
@@ -17,9 +26,7 @@ document.getElementById("savechangesAjouter").addEventListener("click", () => {
   saveEmployeeToLocalStorage();
   renderEmployees();
 });
-if(employees.length > 0){
-renderEmployees();
-}
+
 document.getElementById("ajouterexp").addEventListener("click", () => {
   document.getElementById("dynamiqueForm").innerHTML += `
               <div class="form-group p-3 mb-2 bg-secondary text-white rounded-2">
@@ -35,11 +42,10 @@ document.getElementById("ajouterexp").addEventListener("click", () => {
              `;
 });
 
-function renderEmployees() {
-  let employeesData = JSON.parse(localStorage.getItem("employees"));
-    let card = "";    
-  employeesData.forEach((emp) => {
-    card += `
+function renderEmployees(employees) {
+  let cards = "";      
+  employees.forEach((emp) => {
+    cards += `
         <div
         class="card-employee d-flex align-items-center bg-light-custom p-2 rounded mb-2 profile-info"
         data-bs-toggle="modal"
@@ -50,14 +56,26 @@ function renderEmployees() {
           <p class="mb-0 small">${emp.name}</p>
           <small class="text-muted-light secondary">${emp.role}</small>
         </div>
-        <button class="btn btn-link text-danger ms-auto p-1">
-          <i class="bi bi-x-circle"></i>
-        </button>`;
+        <div class="card-buttons d-flex flex-column ms-auto">
+          <button class="view btn btn-link text-primary ms-auto p-1 mb-1 text-decoration-none">
+            voir profil
+          </button>
+          <hr class="m-1 p-0 w-100"/>
+        <button class="edit btn btn-link text-danger ms-auto p-1 text-decoration-none">
+          modifier
+        </button>
+        </div></div>`;
   });
-  document.getElementById("cardlist").innerHTML = card;
-
+  return cards;
 }
-let assignmodal = document.getElementById('exampleModal2')
-document.getElementById("assignBtn").addEventListener("click", () => {
-    assignmodal.style.display = "block";
+
+
+document.getElementById('assignBtn1').addEventListener('click', () => {
+  let assignemployees = document.getElementById("cardlistassign");
+  
+  // renderEmployees();
+  assignemployees.innerHTML += renderEmployees(employees);
 })
+
+
+
