@@ -132,4 +132,50 @@ font-weight: bold;
 }
 
 
+@media (max-width: 767px) {
+body {
+    flex-direction: column;
+}
+.sidebar {
+    width: 100%;
+    height: auto;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+}
 
+  .main {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+.conferenceroom, .reception, .rest {
+    height: max-content;
+    padding: 100px;
+    gap: 10px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  body{
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+  .conferenceroom, .reception, .rest {
+    height: max-content;
+    padding: 100px;
+    gap: 10px;
+  }
+ 
+
+}
