@@ -1,3 +1,5 @@
+renderEmployees();
+
 const employees = [];
 function saveEmployeeToLocalStorage() {
   staff = {
@@ -5,6 +7,7 @@ function saveEmployeeToLocalStorage() {
     role: document.getElementById("roleModalAjouter").value,
     email: document.getElementById("emailModalAjouter").value,
     phone: document.getElementById("phoneModalAjouter").value,
+    photoURL: document.getElementById("photoModalAjouter").value,
   };
   employees.push(staff);
   localStorage.setItem("employees", JSON.stringify(employees));
@@ -14,7 +17,9 @@ document.getElementById("savechangesAjouter").addEventListener("click", () => {
   saveEmployeeToLocalStorage();
   renderEmployees();
 });
-
+if(employees.length > 0){
+renderEmployees();
+}
 document.getElementById("ajouterexp").addEventListener("click", () => {
   document.getElementById("dynamiqueForm").innerHTML += `
               <div class="form-group p-3 mb-2 bg-secondary text-white rounded-2">
@@ -32,7 +37,7 @@ document.getElementById("ajouterexp").addEventListener("click", () => {
 
 function renderEmployees() {
   let employeesData = JSON.parse(localStorage.getItem("employees"));
-  let card = "";
+    let card = "";    
   employeesData.forEach((emp) => {
     card += `
         <div
@@ -40,7 +45,7 @@ function renderEmployees() {
         data-bs-toggle="modal"
         data-bs-target="#employeeModal"
         >
-        <img src="" alt="..." class="rounded-circle me-2" />
+        <img src="${emp.photoURL}" alt="..." class="rounded-circle me-2" />
         <div>
           <p class="mb-0 small">${emp.name}</p>
           <small class="text-muted-light secondary">${emp.role}</small>
@@ -50,4 +55,9 @@ function renderEmployees() {
         </button>`;
   });
   document.getElementById("cardlist").innerHTML = card;
+
 }
+let assignmodal = document.getElementById('exampleModal2')
+document.getElementById("assignBtn").addEventListener("click", () => {
+    assignmodal.style.display = "block";
+})

@@ -31,25 +31,25 @@
     <section class="main">
       <div class="conferenceroom">
         conference room
-        <button type="button" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
       </div>
       <div class="reception">
         reception
-        <button type="button" class="btn btn-primary addreception">Add</button>
+        <button type="button" class="btn btn-primary addreception" id="assignBtn">Add</button>
       </div>
       <div class="rest">
         rest
         <div class="serversroom">
-          <button type="button" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
         </div>
         <div class="securityuroom">
-          <button type="button" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
         </div>
         <div class="staffroom">
-          <button type="button" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
         </div>
         <div class="vault">
-          <button type="button" class="btn btn-primary">Add</button>
+          <button type="button" class="btn btn-primary" id="assignBtn">Add</button>
         </div>
       </div>
     </section>
@@ -125,7 +125,7 @@
                 <input
                   type="file"
                   name="photo"
-                  id="photo"
+                  id="photoModalAjouter"
                   class="form-control"
                 />
               </div>
@@ -177,6 +177,35 @@
       </div>
     </div>
 
+    <!-- modal assign employee -->
+      <div
+      class="modal fade"
+      id="exampleModal2"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ajouter un employé</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="cardlist"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    
     <script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
