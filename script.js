@@ -41,23 +41,26 @@ document.getElementById("ajouterexp").addEventListener("click", () => {
               </div>
              `;
 });
-
+if (employees.length === 0) {
+  document.getElementById("cardlist").innerHTML = `<p class="text-center text-secondary">Aucun employé n'a été ajouté encore.</p>`;
+}
 function renderEmployees(employees) {
   let cards = "";      
   employees.forEach((emp) => {
+    
     cards += `
         <div
         class="card-employee d-flex align-items-center bg-light-custom p-2 rounded mb-2 profile-info"
         data-bs-toggle="modal"
-        data-bs-target="#employeeModal"
+          data-bs-target="#exampleModal3"
         >
         <img src="${emp.photoURL}" alt="..." class="rounded-circle me-2" />
         <div>
-          <p class="mb-0 small">${emp.name}</p>
-          <small class="text-muted-light secondary">${emp.role}</small>
+          <p class="card-name mb-0 small">${emp.name}</p>
+          <small class="text-muted-light text-secondary">${emp.role}</small>
         </div>
         <div class="card-buttons d-flex flex-column ms-auto">
-          <button class="view btn btn-link text-primary ms-auto p-1 mb-1 text-decoration-none">
+          <button class="view btn btn-link text-primary ms-auto p-1 mb-1 text-decoration-none data-bs-toggle="modal" data-bs-target="#exampleModal3"">
             voir profil
           </button>
           <hr class="m-1 p-0 w-100"/>
@@ -69,13 +72,42 @@ function renderEmployees(employees) {
   return cards;
 }
 
+let receptionemployees = employees.filter(emp => emp.role === "receptionist" || emp.role === "manager");
 
-document.getElementById('assignBtn1').addEventListener('click', () => {
+document.getElementById('assignBtnreception').addEventListener('click', () => {
   let assignemployees = document.getElementById("cardlistassign");
-  
-  // renderEmployees();
-  assignemployees.innerHTML += renderEmployees(employees);
-})
+  assignemployees.innerHTML = renderEmployees(receptionemployees);
+});
+
+function profileEmployee(card) {
+  let emp = employees.find(emp => emp.name === card.querySelector(".card-name").innerText);
+  let profilmodal = document.getElementById("employeeModal3");
+  profilmodal.querySelector(".modal-header").innerHTML = `
+      <h5 class="modal-title" id="exampleModalLabel3">${emp.name}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  `;
+  profilmodal.querySelector(".modal-body").innerHTML = `
+    <div class="text-center">
+      <img src="${emp.photoURL}" alt="Profile Picture" class="rounded-circle mb-3" width="150" height="150"/>
+      <h5>${emp.name}</h5>
+      <p class="text-muted">${emp.role}</p>
+    </div>
+    <div class="modal-body">
+      <div class="d-flex flex-column align-items-center">
+        <img src="${emp.photoURL}" alt="Profile Picture" class="rounded-circle mb-3" width="150" height="150"/>
+        <h5>${emp.role}</h5>
+        <p>Email: ${emp.email}</p>
+        <p>Phone: ${emp.phone}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+  `;
+}
+
+
+
 
 
 

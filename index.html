@@ -23,12 +23,10 @@
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
-        Ajouter un employé
+        Ajouter un employé(e)
       </button>
       <div class="cardListView">
-        <div id="cardlist" class="cardlist">
-        
-      </div>   
+        <div id="cardlist" class="cardlist"></div>
       </div>
     </section>
     <section class="main">
@@ -37,7 +35,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          id="assignBtn1"
+          id="assignBtnconferenceroom"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal2"
         >
@@ -49,7 +47,9 @@
         <button
           type="button"
           class="btn btn-primary addreception"
-          id="assignBtn2"
+          id="assignBtnreception"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2"
         >
           +
         </button>
@@ -57,25 +57,33 @@
       <div class="rest">
         <div class="serversroom">
           <p>servers room</p>
-          <button type="button" class="btn btn-primary" id="assignBtn3">
+          <button type="button" class="btn btn-primary" id="assignBtnserversroom"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2">
             +
           </button>
         </div>
         <div class="securityuroom">
           <p>security room</p>
-          <button type="button" class="btn btn-primary" id="assignBtn4">
+          <button type="button" class="btn btn-primary" id="assignBtnsecurity"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2">
             +
           </button>
         </div>
         <div class="staffroom">
           <p>staff room</p>
-          <button type="button" class="btn btn-primary" id="assignBtn5">
+          <button type="button" class="btn btn-primary" id="assignBtnstaffroom"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2">
             +
           </button>
         </div>
         <div class="vault">
           <p>vault</p>
-          <button type="button" class="btn btn-primary" id="assignBtn6">
+          <button type="button" class="btn btn-primary" id="assignBtnvault"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2">
             +
           </button>
         </div>
@@ -145,7 +153,11 @@
                   >
                     <option selected>choisissez le role...</option>
                     <option value="receptionist">Receptionist</option>
-                    <option value="secrity">Security</option>
+                    <option value="secrity">Agents de sécurité</option>
+                    <option value="Techniciens">Technicien IT</option>
+                    <option value="manager">Manager</option>
+                    <option value="nettoyage">Nettoyage</option>
+                    <option value="autres">Autres</option>
                   </select>
                 </div>
               </div>
@@ -235,14 +247,14 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div id="cardlistassign" class="cardlist">Test</div>
+            <div id="cardlistassign" class="cardlist"></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- modal afficher profil employee -->
-         <div
+    <div
       class="modal fade"
       id="exampleModal3"
       tabindex="-1"
@@ -252,22 +264,13 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel2">
-              
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            
-          </div>
+    
         </div>
       </div>
     </div>
+
+    
+
     <script src="script.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

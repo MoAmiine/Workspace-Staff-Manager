@@ -28,14 +28,14 @@ body {
 .conferenceroom {
   grid-column: 1;
   grid-row: 1;
-  background-image: url('conference-room.jpg');
+  background-image: url('assets/images/conference-room.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
 .reception {
   grid-column: 1;
   grid-row: span 2 ;
-  background-image: url('reception.jpg');
+  background-image: url('assets/images/reception.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -43,7 +43,7 @@ body {
   grid-column: span 2;
   grid-row-start: 1;
   grid-row-end: 5 ;
-  background-image: url('rest.jpg');
+  background-image: url('assets/images/rest.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: grid;
@@ -121,7 +121,15 @@ font-weight: bold;
 .card-buttons{
   border-left: solid 1px gray;
 }
-
+.card-employee{
+  cursor: pointer;
+}
+.card-name{
+  font-weight: bold;
+}
+#exampleModal3{
+  display: none;
+}
 
 
 
