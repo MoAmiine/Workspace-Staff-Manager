@@ -59,7 +59,7 @@ function renderEmployees(employees) {
             <p class="card-name mb-0 small">${emp.name}</p>
             <small class="text-muted-light text-secondary">${emp.role}</small>
           </div>
-          <div class="card-buttons d-flex flex-column ms-auto">
+          <div class="card-buttons d-flex flex-column ms-auto p-1">
             <button class="view btn btn-link text-primary ms-auto p-1 mb-1 text-decoration-none" data-name="${emp.name}" data-bs-toggle="modal" data-bs-target="#exampleModal3">
               voir profil
             </button>
@@ -82,7 +82,7 @@ document.getElementById("assignBtnreception").addEventListener("click", () => {
       emp.role === "nettoyage" ||
       emp.role === "autres"
   );
-  assignemployees.innerHTML = renderEmployees(receptionemployees);
+  assignemployees.innerHTML = AssignEmployees(receptionemployees);
 });
 
 document
@@ -92,7 +92,7 @@ document
     const conferenceroomemployees = employees.filter(
       (emp) => emp.role === "manager"
     );
-    assignemployees.innerHTML = renderEmployees(conferenceroomemployees);
+    assignemployees.innerHTML = AssignEmployees(conferenceroomemployees);
   });
 
 document.getElementById("assignBtnsecurity").addEventListener("click", () => {
@@ -103,7 +103,7 @@ document.getElementById("assignBtnsecurity").addEventListener("click", () => {
       emp.role === "manager" ||
       emp.role === "nettoyage"
   );
-  assignemployees.innerHTML = renderEmployees(securityemployees);
+  assignemployees.innerHTML = AssignEmployees(securityemployees);
 });
 
 document
@@ -116,7 +116,7 @@ document
         emp.role === "manager" ||
         emp.role === "nettoyage"
     );
-    assignemployees.innerHTML = renderEmployees(serversemployees);
+    assignemployees.innerHTML = AssignEmployees(serversemployees);
   });
 
 document.getElementById("assignBtnvault").addEventListener("click", () => {
@@ -124,12 +124,12 @@ document.getElementById("assignBtnvault").addEventListener("click", () => {
   const vaultemployees = employees.filter(
     (emp) => emp.role === "manager" || emp.role === "security"
   );
-  assignemployees.innerHTML = renderEmployees(vaultemployees);
+  assignemployees.innerHTML = AssignEmployees(vaultemployees);
 });
 document.getElementById("assignBtnstaffroom").addEventListener("click", () => {
   let assignemployees = document.getElementById("cardlistassign");
   const staffroomemployees = employees;
-  assignemployees.innerHTML = renderEmployees(staffroomemployees);
+  assignemployees.innerHTML = AssignEmployees(staffroomemployees);
 });
 
 document.addEventListener("click", (e) => {
@@ -153,5 +153,34 @@ document.addEventListener("click", (e) => {
   `
     : '<p class="text-danger">Employé introuvable</p>';
 });
+function AssignEmployees(employees) {
+  if (!employees || employees.length === 0) {
+    return `<p class="text-center text-secondary">Aucun employé n'a été ajouté encore.</p>`;
+  }
+
+  let cards = "";
+  employees.forEach((emp) => {
+    cards += `
+        <div class="card-employee d-flex align-items-center bg-light-custom p-2 rounded mb-2 profile-info">
+          <img src="${emp.photoURL}" alt="..." class="rounded-circle me-2 w-25" />
+          <div>
+            <p class="card-name mb-0 small">${emp.name}</p>
+            <small class="text-muted-light text-secondary">${emp.role}</small>
+          </div>
+          <div class="card-buttons d-flex flex-column ms-auto p-2">
+            <button class="edit btn btn-link text-danger ms-auto p-1 text-decoration-none" id="AssignerEmploye">
+              Ajouter
+            </button>
+          </div>
+        </div>`;
+  });
+  return cards;
+}
+assignerBtn = document.getElementById('AssignerEmploye')
+assignerBtn.addEventListener('click', () => {
+  const conferenceroom = document.getElementById('conferenceroom')
+  
+  
+})
 
 renderPage();
