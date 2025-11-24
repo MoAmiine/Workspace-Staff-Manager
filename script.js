@@ -1,9 +1,41 @@
 let employees = [];
+let zoneTargeted = null;
+
+// Render helper: render list of employee cards into containerId
+function renderInto(containerId, list){
+  const room = document.getElementById(containerId);
+  if(!room) return;
+  // use AssignEmployees for the assign modal list, otherwise default to renderEmployees
+  if (containerId === 'cardlistassign') {
+    room.innerHTML = AssignEmployees(list);
+  } else {
+    room.innerHTML = renderEmployees(list);
+  }
+}
+
+function assignEmployeeToZone(zoneId, employeeEmail){
+  employees = JSON.parse(localStorage.getItem("employees")) || employees;
+  const index = employees.findIndex(e => e.email === employeeEmail);
+  if(index === -1) return false;
+  employees[index].room = zoneId;
+  localStorage.setItem('employees', JSON.stringify(employees));
+  renderPage();
+  renderZone(zoneId);
+  return true;
+}
+
+// Render occupants of a zone (container id is same as zoneId)
+function renderZone(zoneId){
+  const occupants = employees.filter(e => e.room === zoneId);
+  renderInto(zoneId, occupants);
+}
 
 const renderPage = () => {
   employees = JSON.parse(localStorage.getItem("employees")) || [];
 
-  document.getElementById("cardlist").innerHTML = renderEmployees(employees);
+  // show only unassigned employees in the sidebar
+  const unassigned = employees.filter(e => !e.room);
+  renderInto('cardlist', unassigned);
 };
 
 renderPage();
@@ -16,6 +48,7 @@ function saveEmployeeToLocalStorage() {
     phone: document.getElementById("phoneModalAjouter").value,
     photoURL: "/assets/images/pfp.jpg",
     experiences: [],
+    room: null,
   };
   employees.push(staff);
   localStorage.setItem("employees", JSON.stringify(employees));
@@ -74,69 +107,64 @@ function renderEmployees(employees) {
 }
 
 document.getElementById("assignBtnreception").addEventListener("click", () => {
-  let assignemployees = document.getElementById("cardlistassign");
+  zoneTargeted = 'reception';
   const receptionemployees = employees.filter(
     (emp) =>
-      emp.role === "receptionist" ||
+      (emp.role === "receptionist" ||
       emp.role === "manager" ||
       emp.role === "nettoyage" ||
-      emp.role === "autres"
+      emp.role === "autres") && !emp.room
   );
-  assignemployees.innerHTML = AssignEmployees(receptionemployees);
+  renderInto('cardlistassign', receptionemployees);
 });
 
 document
-  .getElementById("assignBtnconferenceroom")
+  .getElementById("assignBtnconferenceroom")    
   .addEventListener("click", () => {
-    let assignemployees = document.getElementById("cardlistassign");
+    zoneTargeted = 'conferenceroom';
     const conferenceroomemployees = employees.filter(
-      (emp) => emp.role === "manager"
+      (emp) => (emp.role === "manager" || emp.role === "receptionist" || emp.role === "autres") && !emp.room
     );
-    assignemployees.innerHTML = AssignEmployees(conferenceroomemployees);
+    renderInto('cardlistassign', conferenceroomemployees);
   });
 
 document.getElementById("assignBtnsecurity").addEventListener("click", () => {
-  let assignemployees = document.getElementById("cardlistassign");
+  zoneTargeted = 'security';
   const securityemployees = employees.filter(
     (emp) =>
-      emp.role === "security" ||
-      emp.role === "manager" ||
-      emp.role === "nettoyage"
+      (emp.role === "security" || emp.role === "manager" || emp.role === "nettoyage") && !emp.room
   );
-  assignemployees.innerHTML = AssignEmployees(securityemployees);
+  renderInto('cardlistassign', securityemployees);
 });
 
 document
   .getElementById("assignBtnserversroom")
   .addEventListener("click", () => {
-    let assignemployees = document.getElementById("cardlistassign");
+    zoneTargeted = 'serversroom';
     const serversemployees = employees.filter(
-      (emp) =>
-        emp.role === "technicien" ||
-        emp.role === "manager" ||
-        emp.role === "nettoyage"
+      (emp) => (emp.role === "technicien" || emp.role === "manager" || emp.role === "nettoyage") && !emp.room
     );
-    assignemployees.innerHTML = AssignEmployees(serversemployees);
+    renderInto('cardlistassign', serversemployees);
   });
 
 document.getElementById("assignBtnvault").addEventListener("click", () => {
-  let assignemployees = document.getElementById("cardlistassign");
+  zoneTargeted = 'vault';
   const vaultemployees = employees.filter(
-    (emp) => emp.role === "manager" || emp.role === "security"
+    (emp) => (emp.role === "manager" || emp.role === "security") && !emp.room
   );
-  assignemployees.innerHTML = AssignEmployees(vaultemployees);
+  renderInto('cardlistassign', vaultemployees);
 });
 document.getElementById("assignBtnstaffroom").addEventListener("click", () => {
-  let assignemployees = document.getElementById("cardlistassign");
-  const staffroomemployees = employees;
-  assignemployees.innerHTML = AssignEmployees(staffroomemployees);
+  zoneTargeted = 'staffroom';
+  const staffroomemployees = employees.filter(emp => !emp.room);
+  renderInto('cardlistassign', staffroomemployees);
 });
 
 document.addEventListener("click", (e) => {
   const viewBtn = e.target.closest(".view");
   if (!viewBtn) return;
   const name = viewBtn.getAttribute("data-name");
-  const emp = employees.find((x) => x.name === name);
+  const emp = employees.find((cartename) => cartename.name === name);
   const profilmodal = document.getElementById("exampleModal3");
   if (!profilmodal) return;
   profilmodal.querySelector(".modal-title").innerText = emp
@@ -168,19 +196,88 @@ function AssignEmployees(employees) {
             <small class="text-muted-light text-secondary">${emp.role}</small>
           </div>
           <div class="card-buttons d-flex flex-column ms-auto p-2">
-            <button class="edit btn btn-link text-danger ms-auto p-1 text-decoration-none" id="AssignerEmploye">
+            <button class="assign-btn btn btn-link text-danger ms-auto p-1 text-decoration-none" data-email="${emp.email}">
               Ajouter
             </button>
           </div>
         </div>`;
   });
   return cards;
+  
 }
-assignerBtn = document.getElementById('AssignerEmploye')
-assignerBtn.addEventListener('click', () => {
-  const conferenceroom = document.getElementById('conferenceroom')
+// delegated handler for assign buttons inside the assign modal
+document.getElementById('cardlistassign').addEventListener('click', (e) => {
+  const btn = e.target.closest('.assign-btn');
+  if (!btn) return;
+  const email = btn.dataset.email;
+  if (!zoneTargeted) return;
+  const ok = assignEmployeeToZone(zoneTargeted, email);
+  if (ok) {
+    // hide the assign modal
+    const modalEl = document.getElementById('exampleModal2');
+    if (modalEl && window.bootstrap && typeof window.bootstrap.Modal === 'function') {
+      const modal = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
+      modal.hide();
+    }
+  }
+});
+
+renderPage();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   
-})
+  
+
+// document.getElementById('ajouterassigne').addEventListener('click ', () => {
+// let conferencecards = document.createElement('div')
+
+// conferencecards.innerHTML += renderEmployees(employees)
+// console.log('conferencecards')
+
+
+
+
+
+
+
+// 
+
 
 renderPage();
