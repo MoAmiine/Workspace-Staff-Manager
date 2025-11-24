@@ -1,13 +1,30 @@
 let employees = [];
 let zoneTargeted = null;
+let editingEmail = null;
+renderPage();
+function renderPage() {
+  employees = JSON.parse(localStorage.getItem("employees")) || [];
+  const unassigned = employees.filter(e => !e.room);
+  renderInto('cardlist', unassigned);
+  renderZone('reception');
+  renderZone('conferenceroom');
+  renderZone('security');
+  renderZone('serversroom');
+  renderZone('vault');
+  renderZone('staffroom');
+;};
 
-// Render helper: render list of employee cards into containerId
 function renderInto(containerId, list){
   const room = document.getElementById(containerId);
   if(!room) return;
-  // use AssignEmployees for the assign modal list, otherwise default to renderEmployees
   if (containerId === 'cardlistassign') {
     room.innerHTML = AssignEmployees(list);
+    document.querySelectorAll('.assign-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const email = e.target.getAttribute('data-email');
+        assignEmployeeToZone(zoneTargeted, email);
+      });
+    });
   } else {
     room.innerHTML = renderEmployees(list);
   }
@@ -16,27 +33,47 @@ function renderInto(containerId, list){
 function assignEmployeeToZone(zoneId, employeeEmail){
   employees = JSON.parse(localStorage.getItem("employees")) || employees;
   const index = employees.findIndex(e => e.email === employeeEmail);
-  if(index === -1) return false;
   employees[index].room = zoneId;
   localStorage.setItem('employees', JSON.stringify(employees));
+  console.log('hello')
   renderPage();
   renderZone(zoneId);
   return true;
 }
 
-// Render occupants of a zone (container id is same as zoneId)
-function renderZone(zoneId){
-  const occupants = employees.filter(e => e.room === zoneId);
-  renderInto(zoneId, occupants);
+
+
+
+function renderZoneCards(occupants, zoneId){
+  if(!occupants || occupants.length === 0) return `<p class="text-muted small">Aucun employé</p>`;
+  let out = '';
+  occupants.forEach(emp => {
+    out += `
+      <div class="zone-card d-flex align-items-center bg-light-custom p-1 rounded mb-1">
+        <img src="${emp.photoURL}" alt="" class="rounded-circle me-2" style="width:36px;height:36px;object-fit:cover;" />
+        <div>
+          <p class="mb-0 small">${emp.name}</p>
+          <small class="text-muted">${emp.role}</small>
+        </div>
+        <button class="retirer-btn btn btn-sm btn-outline-danger ms-auto" data-email="${emp.email}" data-zone="${zoneId}">Retirer</button>
+      </div>`;
+  });
+  return out;
 }
 
-const renderPage = () => {
-  employees = JSON.parse(localStorage.getItem("employees")) || [];
+function renderZone(zoneId){
+  const container = document.getElementById(zoneId);
+  let occupant = container.querySelector('.zone-occupants');
+  if(!occupant){
+    occupant = document.createElement('div');
+    occupant.className = 'zone-occupants mt-2';
+    container.appendChild(occupant);
+  }
+  const occupants = employees.filter(e => e.room === zoneId);
+  occupant.innerHTML = renderZoneCards(occupants, zoneId);
+}
 
-  // show only unassigned employees in the sidebar
-  const unassigned = employees.filter(e => !e.room);
-  renderInto('cardlist', unassigned);
-};
+
 
 renderPage();
 
@@ -57,6 +94,7 @@ function saveEmployeeToLocalStorage() {
 document.getElementById("savechangesAjouter").addEventListener("click", () => {
   saveEmployeeToLocalStorage();
   renderEmployees();
+  renderPage();
 });
 
 document.getElementById("ajouterexp").addEventListener("click", () => {
@@ -97,7 +135,7 @@ function renderEmployees(employees) {
               voir profil
             </button>
             <hr class="m-1 p-0 w-100"/>
-            <button class="edit btn btn-link text-danger ms-auto p-1 text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModalModifier">
+            <button class="edit btn btn-link text-danger ms-auto p-1 text-decoration-none" data-email="${emp.email}" data-bs-toggle="modal" data-bs-target="#exampleModalModifier">
               modifier
             </button>
           </div>
@@ -202,25 +240,13 @@ function AssignEmployees(employees) {
           </div>
         </div>`;
   });
+
   return cards;
   
 }
-// delegated handler for assign buttons inside the assign modal
-document.getElementById('cardlistassign').addEventListener('click', (e) => {
-  const btn = e.target.closest('.assign-btn');
-  if (!btn) return;
-  const email = btn.dataset.email;
-  if (!zoneTargeted) return;
-  const ok = assignEmployeeToZone(zoneTargeted, email);
-  if (ok) {
-    // hide the assign modal
-    const modalEl = document.getElementById('exampleModal2');
-    if (modalEl && window.bootstrap && typeof window.bootstrap.Modal === 'function') {
-      const modal = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
-      modal.hide();
-    }
-  }
-});
+
+
+
 
 renderPage();
 
@@ -281,3 +307,49 @@ renderPage();
 
 
 renderPage();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
