@@ -4,15 +4,18 @@ let editingEmail = null;
 renderPage();
 function renderPage() {
   employees = JSON.parse(localStorage.getItem("employees")) || [];
-  const unassigned = employees.filter(e => !e.room);
+  const unassigned = employees.filter(e => !e.room); {
   renderInto('cardlist', unassigned);
   renderZone('reception');
   renderZone('conferenceroom');
-  renderZone('security');
+  renderZone('securityroom');
   renderZone('serversroom');
   renderZone('vault');
   renderZone('staffroom');
-;};
+  
+}
+}
+
 
 function renderInto(containerId, list){
   const room = document.getElementById(containerId);
@@ -46,9 +49,9 @@ function assignEmployeeToZone(zoneId, employeeEmail){
 
 function renderZoneCards(occupants, zoneId){
   if(!occupants || occupants.length === 0) return `<p class="text-muted small">Aucun employé</p>`;
-  let out = '';
+  let cardZoneAssigned = '';
   occupants.forEach(emp => {
-    out += `
+    cardZoneAssigned += `
       <div class="zone-card d-flex align-items-center bg-light-custom p-1 rounded mb-1">
         <img src="${emp.photoURL}" alt="" class="rounded-circle me-2" style="width:36px;height:36px;object-fit:cover;" />
         <div>
@@ -57,12 +60,26 @@ function renderZoneCards(occupants, zoneId){
         </div>
         <button class="retirer-btn btn btn-sm btn-outline-danger ms-auto" data-email="${emp.email}" data-zone="${zoneId}">Retirer</button>
       </div>`;
-  });
-  return out;
-}
+
+      
+
+      
+      })
+  
+
+      document.querySelectorAll('.retirer-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const email = e.target.getAttribute('data-email');
+          const zone = e.target.getAttribute('data-zone');
+          removeEmployeeFromZone(zone, email);
+        });
+      });
+      return cardZoneAssigned;
+};
 
 function renderZone(zoneId){
   const container = document.getElementById(zoneId);
+  if(!container) return;
   let occupant = container.querySelector('.zone-occupants');
   if(!occupant){
     occupant = document.createElement('div');
@@ -167,7 +184,7 @@ document
   });
 
 document.getElementById("assignBtnsecurity").addEventListener("click", () => {
-  zoneTargeted = 'security';
+  zoneTargeted = 'securityroom';
   const securityemployees = employees.filter(
     (emp) =>
       (emp.role === "security" || emp.role === "manager" || emp.role === "nettoyage") && !emp.room
@@ -204,20 +221,15 @@ document.addEventListener("click", (e) => {
   const name = viewBtn.getAttribute("data-name");
   const emp = employees.find((cartename) => cartename.name === name);
   const profilmodal = document.getElementById("exampleModal3");
-  if (!profilmodal) return;
-  profilmodal.querySelector(".modal-title").innerText = emp
-    ? emp.name
-    : "Profil employé";
-  profilmodal.querySelector(".modal-body").innerHTML = emp
-    ? `
+  profilmodal.querySelector(".modal-title").innerText = emp.name;
+  profilmodal.querySelector(".modal-body").innerHTML = `
     <div class="text-center">
       <img src="${emp.photoURL}" alt="..." class="rounded-circle mb-2" style="width:120px;height:120px;object-fit:cover;" />
     </div>
     <p><strong>Role:</strong> ${emp.role}</p>
     <p><strong>Email:</strong> ${emp.email}</p>
     <p><strong>Phone:</strong> ${emp.phone}</p>
-  `
-    : '<p class="text-danger">Employé introuvable</p>';
+  `;
 });
 function AssignEmployees(employees) {
   if (!employees || employees.length === 0) {
@@ -245,111 +257,20 @@ function AssignEmployees(employees) {
   
 }
 
+function removeEmployeeFromZone(zoneId, employeeEmail){
+  employees = JSON.parse(localStorage.getItem("employees")) || employees;
+  const index = employees.findIndex(e => e.email === employeeEmail);
+  employees[index].room = null;
+  localStorage.setItem('employees', JSON.stringify(employees));
+  console.log('hello')
+  renderPage();
+}
+
+
+
+
 
 
 
 renderPage();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-
-// document.getElementById('ajouterassigne').addEventListener('click ', () => {
-// let conferencecards = document.createElement('div')
-
-// conferencecards.innerHTML += renderEmployees(employees)
-// console.log('conferencecards')
-
-
-
-
-
-
-
-// 
-
-
-renderPage();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
