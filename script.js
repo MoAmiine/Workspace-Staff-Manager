@@ -5,35 +5,29 @@ renderPage();
 function renderPage() {
   employees = JSON.parse(localStorage.getItem("employees")) || [];
   const unassigned = employees.filter(e => !e.room); {
-  renderInto('cardlist', unassigned);
-  renderZone('reception');
-  renderZone('conferenceroom');
-  renderZone('securityroom');
-  renderZone('serversroom');
-  renderZone('vault');
-  renderZone('staffroom');
-  
-}
+    renderInto('cardlist', unassigned);
+    renderZone('reception');
+    renderZone('conferenceroom');
+    renderZone('securityroom');
+    renderZone('serversroom');
+    renderZone('vault');
+    renderZone('staffroom');
+
+  }
 }
 
 
-function renderInto(containerId, list){
+function renderInto(containerId, list) {
   const room = document.getElementById(containerId);
-  if(!room) return;
+  if (!room) return;
   if (containerId === 'cardlistassign') {
     room.innerHTML = AssignEmployees(list);
-    document.querySelectorAll('.assign-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const email = e.target.getAttribute('data-email');
-        assignEmployeeToZone(zoneTargeted, email);
-      });
-    });
   } else {
     room.innerHTML = renderEmployees(list);
   }
 }
 
-function assignEmployeeToZone(zoneId, employeeEmail){
+function assignEmployeeToZone(zoneId, employeeEmail) {
   employees = JSON.parse(localStorage.getItem("employees")) || employees;
   const index = employees.findIndex(e => e.email === employeeEmail);
   employees[index].room = zoneId;
@@ -47,12 +41,11 @@ function assignEmployeeToZone(zoneId, employeeEmail){
 
 
 
-function renderZoneCards(occupants, zoneId){
-  if(!occupants || occupants.length === 0) return `<p class="text-muted small">Aucun employé</p>`;
+function renderZoneCards(occupants, zoneId) {
   let cardZoneAssigned = '';
   occupants.forEach(emp => {
     cardZoneAssigned += `
-      <div class="zone-card d-flex align-items-center bg-light-custom p-1 rounded mb-1">
+      <div class="zone-card d-flex align-items-center bg-light-custom p-1 rounded mb-1 bg-light">
         <img src="${emp.photoURL}" alt="" class="rounded-circle me-2" style="width:36px;height:36px;object-fit:cover;" />
         <div>
           <p class="mb-0 small">${emp.name}</p>
@@ -60,34 +53,36 @@ function renderZoneCards(occupants, zoneId){
         </div>
         <button class="retirer-btn btn btn-sm btn-outline-danger ms-auto" data-email="${emp.email}" data-zone="${zoneId}">Retirer</button>
       </div>`;
+  })
 
-      
-
-      
-      })
-  
-
-      document.querySelectorAll('.retirer-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const email = e.target.getAttribute('data-email');
-          const zone = e.target.getAttribute('data-zone');
-          removeEmployeeFromZone(zone, email);
-        });
-      });
-      return cardZoneAssigned;
+  document.querySelectorAll('.retirer-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const email = e.target.getAttribute('data-email');
+      const zone = e.target.getAttribute('data-zone');
+      removeEmployeeFromZone(zone, email);
+    });
+  });
+  return cardZoneAssigned;
 };
 
-function renderZone(zoneId){
+
+function renderZone(zoneId) {
   const container = document.getElementById(zoneId);
-  if(!container) return;
+  if (!container) return;
   let occupant = container.querySelector('.zone-occupants');
-  if(!occupant){
+  if (!occupant) {
     occupant = document.createElement('div');
     occupant.className = 'zone-occupants mt-2';
     container.appendChild(occupant);
   }
-  const occupants = employees.filter(e => e.room === zoneId);
-  occupant.innerHTML = renderZoneCards(occupants, zoneId);
+  const assignedEmployees = employees.filter(e => e.room === zoneId);
+  if (assignedEmployees.length === 0) {
+    container.classList.add('zone-empty');
+    occupant.innerHTML = `<p class="text-muted small">Aucun employé</p>`;
+  } else {
+    container.classList.remove('zone-empty');
+    occupant.innerHTML = renderZoneCards(assignedEmployees, zoneId);
+  }
 }
 
 
@@ -101,12 +96,23 @@ function saveEmployeeToLocalStorage() {
     email: document.getElementById("emailModalAjouter").value,
     phone: document.getElementById("phoneModalAjouter").value,
     photoURL: "/assets/images/pfp.jpg",
-    experiences: [],
     room: null,
   };
   employees.push(staff);
   localStorage.setItem("employees", JSON.stringify(employees));
   console.log(employees);
+  experiencesInputs = document
+    .getElementById("dynamiqueForm")
+    .querySelectorAll(".form-group");
+  experiencesInputs.forEach((group) => {
+    const experience = {
+      entreprise: group.querySelector('input[placeholder="Entrez le nom d\'entreprise"]').value,
+      role: group.querySelector('input[placeholder="Entrez le role"]').value,
+      from: group.querySelector('input[type="date"]').value,
+      to: group.querySelectorAll('input[type="date"]').value,
+    };
+    staff.experiences.push(experience);
+  });
 }
 document.getElementById("savechangesAjouter").addEventListener("click", () => {
   saveEmployeeToLocalStorage();
@@ -165,20 +171,17 @@ document.getElementById("assignBtnreception").addEventListener("click", () => {
   zoneTargeted = 'reception';
   const receptionemployees = employees.filter(
     (emp) =>
-      (emp.role === "receptionist" ||
-      emp.role === "manager" ||
-      emp.role === "nettoyage" ||
-      emp.role === "autres") && !emp.room
+      (emp.role === "receptionist" || emp.role === "manager" || emp.role === "nettoyage" || emp.role === "autres") && !emp.room
   );
   renderInto('cardlistassign', receptionemployees);
 });
 
 document
-  .getElementById("assignBtnconferenceroom")    
+  .getElementById("assignBtnconferenceroom")
   .addEventListener("click", () => {
     zoneTargeted = 'conferenceroom';
     const conferenceroomemployees = employees.filter(
-      (emp) => (emp.role === "manager" || emp.role === "receptionist" || emp.role === "autres") && !emp.room
+      (emp) => (emp.role === "manager" || emp.role === "receptionist" || emp.role === "autres") 
     );
     renderInto('cardlistassign', conferenceroomemployees);
   });
@@ -187,7 +190,7 @@ document.getElementById("assignBtnsecurity").addEventListener("click", () => {
   zoneTargeted = 'securityroom';
   const securityemployees = employees.filter(
     (emp) =>
-      (emp.role === "security" || emp.role === "manager" || emp.role === "nettoyage") && !emp.room
+      (emp.role === "security" || emp.role === "manager" || emp.role === "nettoyage") 
   );
   renderInto('cardlistassign', securityemployees);
 });
@@ -197,7 +200,7 @@ document
   .addEventListener("click", () => {
     zoneTargeted = 'serversroom';
     const serversemployees = employees.filter(
-      (emp) => (emp.role === "technicien" || emp.role === "manager" || emp.role === "nettoyage") && !emp.room
+      (emp) => (emp.role === "technicien" || emp.role === "manager" || emp.role === "nettoyage")
     );
     renderInto('cardlistassign', serversemployees);
   });
@@ -205,7 +208,7 @@ document
 document.getElementById("assignBtnvault").addEventListener("click", () => {
   zoneTargeted = 'vault';
   const vaultemployees = employees.filter(
-    (emp) => (emp.role === "manager" || emp.role === "security") && !emp.room
+    (emp) => (emp.role === "manager" || emp.role === "security") 
   );
   renderInto('cardlistassign', vaultemployees);
 });
@@ -216,6 +219,15 @@ document.getElementById("assignBtnstaffroom").addEventListener("click", () => {
 });
 
 document.addEventListener("click", (e) => {
+  if (e.target.classList.contains('assign-btn')) {
+    const email = e.target.getAttribute('data-email');
+    assignEmployeeToZone(zoneTargeted, email);
+  }
+  if (e.target.classList.contains('retirer-btn')) {
+    const email = e.target.getAttribute('data-email');
+    const zone = e.target.getAttribute('data-zone');
+    removeEmployeeFromZone(zone, email);
+  }
   const viewBtn = e.target.closest(".view");
   if (!viewBtn) return;
   const name = viewBtn.getAttribute("data-name");
@@ -254,15 +266,17 @@ function AssignEmployees(employees) {
   });
 
   return cards;
-  
+
 }
 
-function removeEmployeeFromZone(zoneId, employeeEmail){
-  employees = JSON.parse(localStorage.getItem("employees")) || employees;
-  const index = employees.findIndex(e => e.email === employeeEmail);
-  employees[index].room = null;
+function removeEmployeeFromZone(zoneId, employeeEmail) {
+  employees = JSON.parse(localStorage.getItem("employees")) || [];
+  employees.forEach(emp => {
+    if (emp.email === employeeEmail) {
+      emp.room = null;
+    }
+  });
   localStorage.setItem('employees', JSON.stringify(employees));
-  console.log('hello')
   renderPage();
 }
 
