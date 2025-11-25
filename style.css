@@ -31,34 +31,33 @@ body {
 .conferenceroom {
   grid-column: 1;
   grid-row: 1;
-  background-image: url('assets/images/conference-room.jpg');
+  background-image: url("assets/images/conference-room.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
 .reception {
   grid-column: 1;
-  grid-row: span 2 ;
-  background-image: url('assets/images/reception.jpg');
+  grid-row: span 2;
+  background-image: url("assets/images/reception.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
-.rest{
+.rest {
   grid-column: span 2;
   grid-row-start: 1;
-  grid-row-end: 5 ;
-  background-image: url('assets/images/rest.jpg');
+  grid-row-end: 5;
+  background-image: url("assets/images/rest.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  
 }
-.card-employee{
+.card-employee {
   box-shadow: 0 0 6px rgb(106, 106, 106);
   width: 21rem;
 }
-.serversroom{
+.serversroom {
   grid-column: 2;
   grid-row: 1;
   margin-right: 50px;
@@ -67,9 +66,9 @@ body {
   align-items: center;
   flex-direction: column;
   font-size: large;
-font-weight: bold;
+  font-weight: bold;
 }
-.securityroom{
+.securityroom {
   grid-column: 3;
   grid-row: 1;
   margin-right: 50px;
@@ -77,10 +76,10 @@ font-weight: bold;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-font-size: large;
-font-weight: bold;
+  font-size: large;
+  font-weight: bold;
 }
-.staffroom{
+.staffroom {
   grid-column: 2;
   grid-row: 3;
   margin-right: 50px;
@@ -88,10 +87,10 @@ font-weight: bold;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-font-size: large;
-font-weight: bold;
+  font-size: large;
+  font-weight: bold;
 }
-.vault{
+.vault {
   grid-column: 3;
   grid-row: 3;
   margin-right: 50px;
@@ -99,38 +98,39 @@ font-weight: bold;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-font-size: large;
-font-weight: bold;
-}
-.conferenceroom{
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-font-size: large;
-font-weight: bold;
-}
-.reception{
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-font-size: large;
-font-weight: bold;
-}
-.modal input , .modal select{
-  margin-bottom: 15px ;
-}
-.card-buttons{
-  border-left: solid 1px gray;
-}
-.card-employee{
-  cursor: pointer;
-}
-.card-name{
+  font-size: large;
   font-weight: bold;
 }
-#exampleModal3{
+.conferenceroom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: large;
+  font-weight: bold;
+}
+.reception {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: large;
+  font-weight: bold;
+}
+.modal input,
+.modal select {
+  margin-bottom: 15px;
+}
+.card-buttons {
+  border-left: solid 1px gray;
+}
+.card-employee {
+  cursor: pointer;
+}
+.card-name {
+  font-weight: bold;
+}
+#exampleModal3 {
   display: none;
 }
 
@@ -143,30 +143,32 @@ font-weight: bold;
 }
 
 @media (max-width: 767px) {
-body {
+  body {
     flex-direction: column;
-}
-.sidebar {
+  }
+  .sidebar {
     width: 100%;
     height: auto;
     border-bottom-right-radius: 0;
     box-shadow: none;
-}
+  }
 
   .main {
     display: flex;
     flex-direction: column;
     padding: 10px;
     gap: 10px;
-}
-.conferenceroom, .reception, .rest {
+  }
+  .conferenceroom,
+  .reception,
+  .rest {
     height: max-content;
     padding: 100px;
     gap: 10px;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
-  body{
+  body {
     flex-direction: column;
   }
   .sidebar {
@@ -181,17 +183,11 @@ body {
     padding: 10px;
     gap: 10px;
   }
-  .conferenceroom, .reception, .rest {
+  .conferenceroom,
+  .reception,
+  .rest {
     height: max-content;
     padding: 100px;
     gap: 10px;
   }
- 
-
 }
-
-
-
-
-
-

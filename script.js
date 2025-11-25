@@ -96,22 +96,22 @@ function saveEmployeeToLocalStorage() {
     email: document.getElementById("emailModalAjouter").value,
     phone: document.getElementById("phoneModalAjouter").value,
     photoURL: "/assets/images/pfp.jpg",
+    experiences: [],
     room: null,
   };
-  employees.push(staff);
-  localStorage.setItem("employees", JSON.stringify(employees));
-  console.log(employees);
-  experiencesInputs = document
-    .getElementById("dynamiqueForm")
-    .querySelectorAll(".form-group");
+  experiencesInputs = document.getElementById("dynamiqueForm").querySelectorAll(".form-group");
   experiencesInputs.forEach((group) => {
     const experience = {
       entreprise: group.querySelector('input[placeholder="Entrez le nom d\'entreprise"]').value,
       role: group.querySelector('input[placeholder="Entrez le role"]').value,
       from: group.querySelector('input[type="date"]').value,
-      to: group.querySelectorAll('input[type="date"]').value,
+      to: group.querySelector('input[type="date"]').value,
     };
     staff.experiences.push(experience);
+    employees.push(staff);
+    localStorage.setItem("employees", JSON.stringify(employees));
+    console.log(employees);
+
   });
 }
 document.getElementById("savechangesAjouter").addEventListener("click", () => {
@@ -181,7 +181,7 @@ document
   .addEventListener("click", () => {
     zoneTargeted = 'conferenceroom';
     const conferenceroomemployees = employees.filter(
-      (emp) => (emp.role === "manager" || emp.role === "receptionist" || emp.role === "autres") 
+      (emp) => (emp.role === "manager" || emp.role === "receptionist" || emp.role === "autres")
     );
     renderInto('cardlistassign', conferenceroomemployees);
   });
@@ -190,7 +190,7 @@ document.getElementById("assignBtnsecurity").addEventListener("click", () => {
   zoneTargeted = 'securityroom';
   const securityemployees = employees.filter(
     (emp) =>
-      (emp.role === "security" || emp.role === "manager" || emp.role === "nettoyage") 
+      (emp.role === "security" || emp.role === "manager" || emp.role === "nettoyage")
   );
   renderInto('cardlistassign', securityemployees);
 });
@@ -208,7 +208,7 @@ document
 document.getElementById("assignBtnvault").addEventListener("click", () => {
   zoneTargeted = 'vault';
   const vaultemployees = employees.filter(
-    (emp) => (emp.role === "manager" || emp.role === "security") 
+    (emp) => (emp.role === "manager" || emp.role === "security")
   );
   renderInto('cardlistassign', vaultemployees);
 });
@@ -241,16 +241,16 @@ document.addEventListener("click", (e) => {
     <p><strong>Role:</strong> ${emp.role}</p>
     <p><strong>Email:</strong> ${emp.email}</p>
     <p><strong>Phone:</strong> ${emp.phone}</p>
-  `;
+    `; 
 });
 function AssignEmployees(employees) {
   if (!employees || employees.length === 0) {
-    return `<p class="text-center text-secondary">Aucun employé n'a été ajouté encore.</p>`;
-  }
+    return `< p class="text-center text-secondary" > Aucun employé n'a été ajouté encore.</>`;
+}
 
   let cards = "";
-  employees.forEach((emp) => {
-    cards += `
+employees.forEach((emp) => {
+  cards += `
         <div class="card-employee d-flex align-items-center bg-light-custom p-2 rounded mb-2 profile-info">
           <img src="${emp.photoURL}" alt="..." class="rounded-circle me-2 w-25" />
           <div>
@@ -263,9 +263,9 @@ function AssignEmployees(employees) {
             </button>
           </div>
         </div>`;
-  });
+});
 
-  return cards;
+return cards;
 
 }
 
