@@ -15,6 +15,9 @@ function renderPage() {
 
   }
 }
+const regexpEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const regexpPhone = /^\+?[0-9]{7,15}$/;
+const regexpName = /^[a-zA-ZÀ-ÿ '-]+$/;
 
 
 function renderInto(containerId, list) {
@@ -37,8 +40,6 @@ function assignEmployeeToZone(zoneId, employeeEmail) {
   renderZone(zoneId);
   return true;
 }
-
-
 
 
 function renderZoneCards(occupants, zoneId) {
@@ -85,12 +86,12 @@ function renderZone(zoneId) {
   }
 }
 
-
+let staff = {};
 
 renderPage();
 
 function saveEmployeeToLocalStorage() {
-  const staff = {
+    staff = {
     name: document.getElementById("nameModalAjouter").value,
     role: document.getElementById("roleModalAjouter").value,
     email: document.getElementById("emailModalAjouter").value,
@@ -114,11 +115,36 @@ function saveEmployeeToLocalStorage() {
 
   });
 }
+
+function validateEmployeeData(staff) {
+    let Regex = true;
+  if (!regexpName.test(staff.name)) {
+    alert("Veuillez entrer un nom valide.");
+    Regex = false;
+}
+  if (staff.role !== '') {
+    alert("Veuillez entrer un rôle valide (manager, receptionist, security, technicien, nettoyage, autres).");
+    Regex = false;
+  }
+  if (!regexpEmail.test(staff.email)) {
+    alert("Veuillez entrer une adresse e-mail valide.");
+    Regex = false;
+  }
+  if (!regexpPhone.test(staff.phone)) {
+    alert("Veuillez entrer un numéro de téléphone valide.");
+    Regex = false;
+  }
+  return Regex;
+}
+
+ 
 document.getElementById("savechangesAjouter").addEventListener("click", () => {
+  if (!validateEmployeeData(staff))
   saveEmployeeToLocalStorage();
   renderEmployees();
   renderPage();
-});
+  });
+
 
 document.getElementById("ajouterexp").addEventListener("click", () => {
   document.getElementById("dynamiqueForm").innerHTML += `
@@ -134,11 +160,7 @@ document.getElementById("ajouterexp").addEventListener("click", () => {
               </div>
              `;
 });
-if (employees.length === 0) {
-  document.getElementById(
-    "cardlist"
-  ).innerHTML = `<p class="text-center text-secondary">Aucun employé n'a été ajouté encore.</p>`;
-}
+
 function renderEmployees(employees) {
   if (!employees || employees.length === 0) {
     return `<p class="text-center text-secondary">Aucun employé n'a été ajouté encore.</p>`;
