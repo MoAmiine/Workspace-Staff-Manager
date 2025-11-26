@@ -117,20 +117,21 @@ function saveEmployeeToLocalStorage() {
 }
 
 function validateEmployeeData(staff) {
+  saveEmployeeToLocalStorage();
     let Regex = true;
-  if (!regexpName.test(staff.name)) {
+  if (!regexpName.test(document.getElementById("nameModalAjouter").value)) {
     alert("Veuillez entrer un nom valide.");
     Regex = false;
 }
-  if (staff.role !== '') {
+  if (document.getElementById("roleModalAjouter").value == '') {
     alert("Veuillez entrer un rôle valide (manager, receptionist, security, technicien, nettoyage, autres).");
     Regex = false;
   }
-  if (!regexpEmail.test(staff.email)) {
+  if (!regexpEmail.test(document.getElementById("emailModalAjouter").value)) {
     alert("Veuillez entrer une adresse e-mail valide.");
     Regex = false;
   }
-  if (!regexpPhone.test(staff.phone)) {
+  if (!regexpPhone.test(document.getElementById("phoneModalAjouter").value)) {
     alert("Veuillez entrer un numéro de téléphone valide.");
     Regex = false;
   }
@@ -139,11 +140,13 @@ function validateEmployeeData(staff) {
 
  
 document.getElementById("savechangesAjouter").addEventListener("click", () => {
-  if (!validateEmployeeData(staff))
+  if (!validateEmployeeData(staff)){
   saveEmployeeToLocalStorage();
   renderEmployees();
   renderPage();
+  }
   });
+
 
 
 document.getElementById("ajouterexp").addEventListener("click", () => {
