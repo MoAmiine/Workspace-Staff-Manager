@@ -98,7 +98,7 @@ function saveEmployeeToLocalStorage() {
     phone: document.getElementById("phoneModalAjouter").value,
     photoURL: "/assets/images/pfp.jpg",
     experiences: [],
-    room: null,
+    room: null
   };
   experiencesInputs = document.getElementById("dynamiqueForm").querySelectorAll(".form-group");
   experiencesInputs.forEach((group) => {
@@ -111,13 +111,12 @@ function saveEmployeeToLocalStorage() {
     staff.experiences.push(experience);
     employees.push(staff);
     localStorage.setItem("employees", JSON.stringify(employees));
-    console.log(employees);
 
   });
 }
 
-function validateEmployeeData(staff) {
-  saveEmployeeToLocalStorage();
+function validateEmployeeData() {
+  
     let Regex = true;
   if (!regexpName.test(document.getElementById("nameModalAjouter").value)) {
     alert("Veuillez entrer un nom valide.");
@@ -140,11 +139,13 @@ function validateEmployeeData(staff) {
 
  
 document.getElementById("savechangesAjouter").addEventListener("click", () => {
-  if (!validateEmployeeData(staff)){
+  console.log('clicked');
+  if (validateEmployeeData()){
   saveEmployeeToLocalStorage();
   renderEmployees();
   renderPage();
   }
+
   });
 
 
